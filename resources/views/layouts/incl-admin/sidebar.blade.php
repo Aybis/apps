@@ -3,7 +3,7 @@
 
        <div class="leftbar-user">
            <a href="javascript: void(0);">
-               <img src="{{ asset('assets/images/users/avatar-1.jpg') }}" alt="user-image" height="42"
+               <img src="https://ui-avatars.com/api/?name={{ Auth::user()->name }}" alt="user-image" height="42"
                    class="rounded-circle shadow-sm">
                <span class="leftbar-user-name">{{ Auth::user()->name }}</span>
            </a>
@@ -31,20 +31,20 @@
                <ul class="side-nav-second-level" aria-expanded="false">
                    @can('manage-lpl')
                    <li>
-                       <a href="#">Create</a>
+                       <a href="{{ route('spph.create') }}">Create</a>
                    </li>
                    @endcan('manage-lpl')
                    <li>
-                       <a href="#">Draft</a>
+                       <a href="{{ route('spph.draft') }}">Draft</a>
                    </li>
                    <li>
-                       <a href="#">List</a>
+                       <a href="{{ route('spph.list') }}">List</a>
                    </li>
                    <li>
-                       <a href="#">Done</a>
+                       <a href="{{ route('spph.done') }}">Done</a>
                    </li>
                    <li>
-                       <a href="#">All</a>
+                       <a href="{{ route('spph.all') }}">All</a>
                    </li>
 
                </ul>

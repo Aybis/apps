@@ -19,6 +19,7 @@ class CreateSpphsTable extends Migration
             $table->date('tanggal_spph');
             $table->string('nomor_sph')->nullable();
             $table->date('tanggal_sph')->nullable();
+            $table->time('time_sph')->nullable();
             $table->longText('judul');
             $table->string('pic')->nullable();
             $table->string('dari')->nullable();

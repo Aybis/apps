@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\File;
+use App\Models\Permissions;
 use Illuminate\Http\Request;
 
-class FileController extends Controller
+class PermissionsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -41,10 +41,10 @@ class FileController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\File  $file
+     * @param  \App\Permissions  $permissions
      * @return \Illuminate\Http\Response
      */
-    public function show(File $file)
+    public function show(Permissions $permissions)
     {
         //
     }
@@ -52,10 +52,10 @@ class FileController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\File  $file
+     * @param  \App\Permissions  $permissions
      * @return \Illuminate\Http\Response
      */
-    public function edit(File $file)
+    public function edit(Permissions $permissions)
     {
         //
     }
@@ -64,10 +64,10 @@ class FileController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\File  $file
+     * @param  \App\Permissions  $permissions
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, File $file)
+    public function update(Request $request, Permissions $permissions)
     {
         //
     }
@@ -75,10 +75,10 @@ class FileController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\File  $file
+     * @param  \App\Permissions  $permissions
      * @return \Illuminate\Http\Response
      */
-    public function destroy(File $file)
+    public function destroy(Permissions $permissions)
     {
         //
     }

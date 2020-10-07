@@ -96,8 +96,7 @@ Dashboard
 <script src="{{ asset('assets/js/vendor/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/vendor/dataTables.bootstrap4.js') }}"></script>
 <script src="{{ asset('assets/sweetalert/js/sweetalert2.all.min.js')}}"></script>
-<script src="{{ asset('js/web/main/home.js')}}"></script>
 
 <!-- third party js ends -->
 
-@endsections
+@endsection

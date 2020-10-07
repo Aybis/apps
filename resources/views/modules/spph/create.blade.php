@@ -10,9 +10,6 @@ Create
 <link href="{{ asset('assets/css/vendor/responsive.bootstrap4.css') }}" rel="stylesheet" type="text/css" />
 <!-- Froala -->
 <link href='https://cdn.jsdelivr.net/npm/froala-editor@3.2.0/css/froala_editor.pkgd.min.css' rel='stylesheet' type='text/css' />
-<!-- Summernote css -->
-<link href="assets/css/vendor/summernote-bs4.css" rel="stylesheet" type="text/css" />
-
 
 
 <style>
@@ -52,20 +49,24 @@ Create LPL
             <div class="card-body">
                 <form id="lpls_form" data-url="" class="form-horizontal">
                     @csrf
-                    <div class="row">
-                     
+                    <div class="row">                    
 
                         <div class="col-lg-6">
                             <div class="form-group mb-3">
-                                <label>Nomor SPPH</label>
-                                <input type="text" class="form-control" id="nomor_spph" name="nomor_spph" value="{{ old('nomor_spph') }}">
+                                <label>Tanggal SPPH</label>
+                                <div class="input-group">
+                                    <input type="text" class="form-control" data-date="" data-date-format="yyyy-mm-dd" data-provide="datepicker" data-date-autoclose="true" id="tanggal_spph" name="tanggal_spph" value="{{ old('tanggal_spph') }}">
+                                    <div class="input-group-append">
+                                        <span class="input-group-text"><i class=" mdi mdi-calendar-month"></i></span>
+                                    </div>
+                                </div>
                             </div>
                         </div> <!-- end col -->
 
                         <div class="col-lg-6">
                             <div class="form-group mb-3">
-                                <label>Tanggal SPPH</label>
-                                <input type="text" class="form-control" data-date="" data-date-format="yyyy-mm-dd" data-provide="datepicker" data-date-autoclose="true" id="tanggal_spph" name="tanggal_spph" value="{{ old('tanggal_spph') }}">
+                                <label>Nomor SPPH</label>
+                                <input type="text" class="form-control" id="nomor_spph" name="nomor_spph" value="{{ old('nomor_spph') }}">
                             </div>
                         </div> <!-- end col -->
 
@@ -78,10 +79,38 @@ Create LPL
 
                         <div class="col-lg-6">
                             <div class="form-group mb-3">
-                                <label>Tanggal SPH</label>
-                                <input type="text" class="form-control" data-date="" data-date-format="yyyy-mm-dd" data-provide="datepicker" data-date-autoclose="true" id="tanggal_sph" name="tanggal_sph" value="{{ old('tanggal_sph') }}">
+                                <label>Tanggal dan Jam SPH</label>
+
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-3">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" data-date="" data-date-format="yyyy-mm-dd" data-provide="datepicker" data-date-autoclose="true" id="tanggal_sph" name="tanggal_sph" value="{{ old('tanggal_sph') }}">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class=" mdi mdi-calendar-month"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group mb-3">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" data-toggle='timepicker' data-show-meridian="false">
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text"><i class="mdi mdi-calendar-clock"></i></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+                         
+
+                           
                         </div> <!-- end col -->
+
+                     
 
                         <div class="col-lg-6">
                             <div class="form-group mb-3">
@@ -105,9 +134,16 @@ Create LPL
                             </div>
                         </div> <!-- end col -->
 
-                        <h3 class=" mt-4 text-justify">PREVIEW</h3>
+                       <div class="col-lg-12 mb-3" style="text-align: center">
+                        <h3>PREVIEW</h3>
+                        <hr>
+                       </div>
 
-
+                        <div class="col-lg-12 mb-3">
+                          <textarea id="froala">
+                            <x-spph-create></x-spph-create>
+                          </textarea>
+                        </div>
                     </div>
                     <!-- end row -->
 
@@ -124,11 +160,13 @@ Create LPL
 @endsection
 
 @section('scripts')
-
+<!-- External JS -->
+<script src="{{ asset('js\web\main\spph\create.js') }}"></script>
 <!-- Froala -->
 <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/froala-editor@3.2.0/js/froala_editor.pkgd.min.js'></script>
-<!-- plugin js -->
-<script src="assets/js/vendor/summernote-bs4.min.js"></script>
-<!-- Summernote demo -->
-<script src="assets/js/pages/demo.summernote.js"></script>
+<script>
+    new FroalaEditor('#froala', {
+        heightMin : 200,
+    })
+</script>
 @endsection

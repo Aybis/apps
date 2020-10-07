@@ -46,7 +46,7 @@ class SpphController extends Controller
      */
     public function done()
     {
-        return view('modules.spph.list');
+        return view('modules.spph.done');
     }
 
 
