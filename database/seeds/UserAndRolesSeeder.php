@@ -32,6 +32,29 @@ class UserAndRolesSeeder extends Seeder
             ]
         ]);
 
+        DB::table('permissions')->insert([
+            [
+                "name" => "users-list",
+                "display" => "List User",
+                "menu" => "User",
+            ],
+            [
+                "name" => "roles-list",
+                "display" => "List Roles",
+                "menu" => "Roles",
+            ],
+            [
+                "name" => "permissions-list",
+                "display" => "List Permissions",
+                "menu" => "Permissions",
+            ],
+            [
+                "name" => "dashboard",
+                "display" => "Dashboard",
+                "menu" => "Dashboard",
+            ]
+        ]);
+
         DB::table('users')->insert([
             [
                 "username" => "fauzi.hanif",
@@ -44,6 +67,13 @@ class UserAndRolesSeeder extends Seeder
                 "username" => "abdul.muchtar",
                 "name" => "Abdul Muchtar Astria",
                 "email" => "abdul.muchtar@pins.co.id",
+                "role_id" => 1,
+                "password" => bcrypt('gloryHorsePower')
+            ],
+            [
+                "username" => "bayu.respati",
+                "name" => "Bayu Respati",
+                "email" => "bayu.respati@pins.co.id",
                 "role_id" => 1,
                 "password" => bcrypt('gloryHorsePower')
             ],

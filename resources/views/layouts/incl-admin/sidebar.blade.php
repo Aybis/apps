@@ -62,7 +62,7 @@
                </a>
                <ul class="side-nav-second-level" aria-expanded="false">
                    <li>
-                       <a href="#">
+                       <a href="{{ url('users') }}">
                            <span class="badge badge-light float-right">New</span>
                            <span>Karyawan</span>
                        </a>
@@ -74,10 +74,10 @@
                        </a>
                        <ul class="side-nav-third-level" aria-expanded="false">
                            <li>
-                               <a href="pages-login.html">Roles</a>
+                               <a href="{{ url('roles') }}">Roles</a>
                            </li>
                            <li>
-                               <a href="pages-login-2.html">Permission</a>
+                               <a href="{{ url('permissions') }}">Permission</a>
                            </li>
 
                        </ul>

@@ -17,7 +17,7 @@ class CreatePermissionsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('display');
-            $table->string('route');
+            $table->string('menu');
             $table->timestamps();
         });
     }

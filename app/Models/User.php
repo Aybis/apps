@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -36,5 +37,10 @@ class User extends Authenticatable implements Auditable
     {
         $query = User::all();
     }
+
+  public function roles()
+  {
+      return $this->hasMany(Roles::class,'id','role_id');
+  }
 
 }

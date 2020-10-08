@@ -1,4 +1,4 @@
-@extends('layouts.master')
+@extends('layouts.master-admin')
 
 @section('title')
   Karyawan
@@ -39,7 +39,7 @@
                     </div>
                     {{-- <hr> --}}
                     <div class="tab-content ">
-                        <table id="list-user" class="table" width="100%" data-url="{{ url('users') }}" >
+                        <table id="list-user" class="table" width="100%" data-url="{{ route('users.data') }}" >
                             <thead>
                                 <tr>
                                     <th>No</th>
@@ -58,8 +58,8 @@
         </div>
     </div>
 
-    @include('modules.user.modal.create')
-    @include('modules.user.modal.edit')
+    @include('modules.management.user.modal.create')
+    @include('modules.management.user.modal.edit')
 @endsection
 
 @section('scripts')

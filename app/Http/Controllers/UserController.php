@@ -13,7 +13,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        return User::orderBy('created_at', 'desc')->get();
+        return view('modules.management.user.index');
+    }
+
+    public function getAllData()
+    {
+        return User::with('roles')->orderBy('created_at', 'desc')->get();
     }
 
 
@@ -51,6 +56,11 @@ class UserController extends Controller
         $user->update();
 
         return response()->json('Success update User', 200);
+    }
+
+    public function show(User $user)
+    {
+
     }
 
 

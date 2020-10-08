@@ -22,7 +22,7 @@ Route::get('/', 'HomeController@index')->name('home');
 
 
 Route::resource('spph', 'SpphController', [
-    'only' => ['all', 'draft', 'list', 'done', 'create', 'edit', 'store', 'update', 'destroy'] ,
+    'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
 ]);
 Route::group(['prefix' => 'spph'], function () {
 
@@ -33,6 +33,29 @@ Route::group(['prefix' => 'spph'], function () {
 });
 
 //-------- Route MASTER DATA ----------------------
+Route::resource('users', 'UserController', [
+    'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
+]);
+
+Route::group(['prefix' => 'users'], function () {
+    Route::get('/data', 'UserController@getAllData')->name('users.data');
+});
+
+Route::resource('roles', 'RolesController', [
+    'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
+]);
+
+Route::group(['prefix' => 'roles'], function () {
+    Route::get('/data', 'RolesController@getAllData')->name('roles.data');
+});
+
+Route::resource('permissions', 'PermissionsController', [
+    'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
+]);
+
+Route::group(['prefix' => 'permissions'], function () {
+    Route::get('/data', 'PermissionsController@getAllData')->name('permissions.data');
+});
 
 
 //-------- End Route MASTER DATA --------
