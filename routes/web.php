@@ -33,6 +33,7 @@ Route::group(['prefix' => 'spph'], function () {
 });
 
 //-------- Route MASTER DATA ----------------------
+
 Route::resource('users', 'UserController', [
     'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
 ]);
@@ -41,21 +42,24 @@ Route::group(['prefix' => 'users'], function () {
     Route::get('/data', 'UserController@getAllData')->name('users.data');
 });
 
-Route::resource('roles', 'RolesController', [
-    'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
-]);
+
 
 Route::group(['prefix' => 'roles'], function () {
     Route::get('/data', 'RolesController@getAllData')->name('roles.data');
+    Route::get('/add/{roles}', 'RolesController@addPermissions')->name('roles.add');
 });
 
-Route::resource('permissions', 'PermissionsController', [
-    'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
+Route::resource('roles', 'RolesController', [
+    'only' => ['index', 'edit', 'store', 'update', 'destroy'] ,
 ]);
+
+
 
 Route::group(['prefix' => 'permissions'], function () {
     Route::get('/data', 'PermissionsController@getAllData')->name('permissions.data');
 });
 
-
+Route::resource('permissions', 'PermissionsController', [
+    'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
+]);
 //-------- End Route MASTER DATA --------

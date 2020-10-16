@@ -24,14 +24,13 @@ Roles
     <div class="col-12">
         <div class="card">
             <div class="card-body">
-                <div class="row">
+                <div class="row mb-2">
                     <div class="col-sm-8">
-                        <h4 class="header-title">Data Roles</h4>
-                        <p class="text-muted">Management Roles</p>
+                        <h4 class="header-title">Management Roles</h4>
                     </div>
                     <div class="col-sm-4">
                         <div class="text-center text-sm-right">
-                            <a href="#add-user" data-toggle="modal" class="btn btn-primary">
+                            <a href="#modal" data-toggle="modal" data-set="add" id="add-roles" class="btn btn-primary">
                                 <i class=" mdi mdi-account-plus-outline mr-1"></i> Add Roles
                             </a>
                         </div>
@@ -39,7 +38,7 @@ Roles
                 </div>
                 
                 <div class="tab-content ">
-                    <table id="table-roles" class="table" width="100%" data-url="{{ route('roles.data') }}" >
+                    <table id="table-roles" class="table" width="100%" data-url="{{ url('roles') }}">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -55,8 +54,29 @@ Roles
     </div>
 </div>
 
-@include('modules.management.user.modal.create')
-@include('modules.management.user.modal.edit')
+<x-management.roles.modals >
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" class="form-control">
+                <span class="text-danger" id="name-error"></span>
+            </div>
+        </div>
+        <!-- end col -->
+
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label for="display">Display</label>
+                <input type="text" id="display" class="form-control">
+                <span class="text-danger" id="display-error"></span>
+            </div>
+        </div>
+        <!-- end col -->
+
+    </div>
+    <button class="btn btn-primary" id="submit">Submit</button>
+</x-management.roles.create>
 @endsection
 
 @section('scripts')

@@ -12,4 +12,21 @@ class Roles extends Model
     {
         return $this->belongsToMany('App\Models\User','role_id');
     }
+
+    public function insertData($data)
+    {
+        $role = new Roles();
+        $role->name = $data['names'];
+        $role->display = $data['display'];
+        $role->save();
+        return $role;
+    }
+
+    public function updateData($data, $role)
+    {
+        $role->name = $data['name'];
+        $role->display = $data['display'];
+        $role->save();
+        return $role;
+    }
 }

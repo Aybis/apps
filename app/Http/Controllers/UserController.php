@@ -28,6 +28,15 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'username' => 'required|unique:users,username,except,id',
+            'email' => 'required|email|unique:users,email,except,id',
+            'name' => 'required',
+
+        ],[
+            'required' => ':Attribut cannot empty',
+            'unique' => ':Attribute must be unique'
+        ]);
         $user = new User();
         $user['username']   = $request['username'];
         $user['password']   = bcrypt('gloryHorsePower');
@@ -48,6 +57,16 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $request->validate([
+            'username' => 'required|unique:users,username,except, '.$user->id,
+            'email' => 'required|email|unique:users,email,except, '.$user->id,
+            'name' => 'required',
+
+        ],[
+            'required' => ':Attribut cannot empty',
+            'unique' => ':Attribute must be unique'
+        ]);
+
         $user['username']   = $request['username'];
         $user['email']      = $request['email'];
         $user['level']      = $request['level'];

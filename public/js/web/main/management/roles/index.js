@@ -1,20 +1,18 @@
 const url = $('#table-roles').data('url');
-const id = '';
-
+const url_data = `${url}/data`;
+const url_add = url;
+const url_update = `${url}/update`;
 // ------------------------------function get data------------------------------
-$(document).ready(function() {
-    getAllData();
-});
 
+getAllData();
 
 function getAllData() {
     $('#table-roles').DataTable({
-        scrollY: "500px",
+        scrollY: "350px",
         pagingType: "full_numbers",
         destroy: true,
         responsive: true,
         processing: true,
-        // serverSide: true,
         async: true,
         language: {
             paginate: {
@@ -22,59 +20,107 @@ function getAllData() {
                 next: "<i class='mdi mdi-chevron-right'>"
             }
         },
-        drawCallback: function() {
+        drawCallback: function () {
             $(".dataTables_paginate > .pagination").addClass("pagination-rounded")
         },
         ajax: {
-            url: url,
+            url: url_data,
             dataSrc: "",
             type: 'get',
         },
         columns: [{
-                data: 'id',
-            },{
-                data: "name",
-                defaultContent: "NULL",
-            }, {
-                data: "display",
-                defaultContent: "NULL",
-            }, {
-                data: "id",
-                orderable: false,
-                searchable: false,
-                render: function(data, type, row, meta) {
-                    return `
+            data: 'id',
+        }, {
+            data: "name",
+            defaultContent: "NULL",
+        }, {
+            data: "display",
+            defaultContent: "NULL",
+        }, {
+            data: "id",
+            orderable: false,
+            searchable: false,
+            render: function (data, type, row, meta) {
+                return `
                     <div class="btn-group dropleft">
                         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                         <div class="dropdown-menu" >
-                                <a href="#edit-user" id="update-user" data-toggle="modal" data-id="${row.id}" data-name="${row.name}" data-display="${row.display}" class="upload dropdown-item"  title="Upload Lampiran" style="text-decoration: none;color: black;"><span class="mdi mdi-file-edit-outline"></span> Edit Roles</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#edit-user" id="update-user" data-toggle="modal" data-id="${row.id}" data-name="${row.name}" data-display="${row.display}" class="upload dropdown-item"  title="Upload Lampiran" style="text-decoration: none;color: black;"><span class="mdi mdi-file-edit-outline"></span> Add Permissions</a>
-                                <div class="dropdown-divider"></div>
-                                <a href="#edit-user" id="update-user" data-toggle="modal" data-id="${row.id}" data-name="${row.name}" data-display="${row.display}" class="upload dropdown-item"  title="Upload Lampiran" style="text-decoration: none;color: black;"><span class="mdi mdi-file-edit-outline"></span> Edit Permissions</a>
-                                <div class="dropdown-divider"></div>
-                                <li class="dropdown-item" style="padding:0">
-                                    <button type="button" id="delete" class="btn btn-block btn-sm btn-danger" data-id="${row.id}">Delete</button>
-                                </li>
+                                <a href="#modal" id="update-roles" data-toggle="modal" data-id="${row.id}" data-name="${row.name}" data-display="${row.display}" class="update dropdown-item" style="text-decoration: none;color: black;">
+                                    <span class="mdi mdi-file-edit-outline"></span> 
+                                    Edit Roles
+                                </a>
+                            <div class="dropdown-divider"></div>
+                                <a href="/roles/add/${row.id}" class="upload dropdown-item" style="text-decoration: none;color: black;"><span class="mdi mdi-file-edit-outline"></span> Add Permissions</a>
+                            <div class="dropdown-divider"></div>
+                                <a href="/roles/${row.id}" class="upload dropdown-item" style="text-decoration: none;color: black;"><span class="mdi mdi-file-edit-outline"></span> Edit Permissions</a>                                
+                            <div class="dropdown-divider"></div>
+                            <li class="dropdown-item" style="padding:0">
+                                <button type="button" id="delete" class="btn btn-block btn-sm btn-danger" data-id="${row.id}">Delete</button>
+                            </li>
                         </div>
                     </div>
                     `
-                },
-            }
-        ],
+            },
+        }],
 
 
     });
 }
-
 // ------------------------------ end function get data ------------------------------
-//------------------------------ function add user ------------------------------
 
-$("#user-add").submit(function(e) {
-    e.preventDefault();
+
+// ------------------------------ funtion on click add or edit ------------------------------
+
+// function on click add 
+$('#add-roles').on('click', function () {
+    // change html and attribute
+    $('input').val('');
+    $('#status').val("add");
+    $('#label').html('Add Role');
+    $('#submit').html('Add Role');
+})
+
+// function on click edit
+$(document).on("click", ".update", function () {
+    // declare variable
+    let id = $(this).data('id');
+    let name = $(this).data('name');
+    let display = $(this).data('display');
+
+    // change html and attribute
+    $('#status').val("edit");
+    $('#label').html('Update Role');
+    $('#submit').html('Update');
+
+    // onchange value
+    $('#name').val(name);
+    $('#display').val(display);
 });
 
-function addData() {
+// ------------------------------ end function on click add or edit ------------------------------
+
+
+$(document).on("submit", "#form", function (e) {
+
+    e.preventDefault();
+
+    let set = $('#status').val();
+    let name = $('#name').val();
+    let display = $('#display').val();
+    let data = [];
+
+
+    data['name'] = name;
+    data['display'] = display;
+
+    if (set == 'add') {
+        addData(data);
+    } else {
+        updateData(data);
+    }
+});
+
+function addData(data) {
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -82,151 +128,52 @@ function addData() {
     });
     $.ajax({
         type: 'POST',
-        url: url_add,
+        url: url,
         data: {
-            username: $('#username').val(),
-            email: $('#email').val(),
-            name: $('#name').val(),
-            level: $('#level').val(),
-            position: $('#position').val(),
+            name : $('#name').val(),
+            display : $('#display').val(),
         },
         dataType: 'json',
-        success: function(data, textStatus, xhr) {
-            console.log(data);
-            if (xhr.status == 200) {
-                successAlert(data);
+        success: function(data, response) {
+            successAlert(data.display);
+        },
+        error : function (response){
+            
+            if(response.status != 500){
+                let name = response.responseJSON.errors.name == null ? '' : response.responseJSON.errors.name;
+                let display = response.responseJSON.errors.display == null ? '' : response.responseJSON.errors.display;
+                $('#name-error').text(name)
+                $('#display-error').text(display)
+            }else{
+                errorAlert(response.responseJSON.message);
             }
+            
         }
     })
 }
 
-
-
-//------------------------------ end function add ------------------------------
-
-// ------------------------------ function edit user ------------------------------
-// add url after click 
-$(document).on("click", ".upload", function() {
-    let id = $(this).data('id');
-    let username = $(this).data('username');
-    let email = $(this).data('email');
-    let name = $(this).data('name');
-    let role = $(this).data('role');
-    let position = $(this).data('position');
-
-
-    $('#id').val(id);
-    $('#username-edit').val(username);
-    $('#email-edit').val(email);
-    $('#name-edit').val(name);
-    $('#role-edit').val(role);
-    $('#position-edit').val(position);
-});
-
-$("#user-edit").submit(function(e) {
-    e.preventDefault();
-});
-
-function editData() {
-    let id = $('#id').val();
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        }
-    });
-    $.ajax({
-        type: 'PUT',
-        url: `${url}/${id}`,
-        data: {
-            username: $('#username-edit').val(),
-            email: $('#email-edit').val(),
-            name: $('#name-edit').val(),
-            level: $('#role-edit').val(),
-            position: $('#position-edit').val(),
-        },
-        dataType: 'json',
-        success: function(data, textStatus, xhr) {
-            console.log(data);
-            if (xhr.status == 200) {
-                successAlert(data);
-            }
-        }
-    })
+function updateData(data) {
+    console.log(data);
 }
-
-//------------------------------ end function edit user ------------------------------
-
-
-
-
-
-//------------------------------ end function delete user ------------------------------
-
-// Function sweet alert delete
-$('#list-user').on('click', '#delete', function(e) {
-    event.preventDefault();
-    // get url and id from attribute
-    let id = $(this).data('id');
-
-    // declare sweet alert
-    Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
-        showLoaderOnConfirm: true,
-
-        // ajax catch data
-        preConfirm: (data) => {
-            return $.ajax({
-                type: 'DELETE',
-                url: `${url}/${id}`,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(data) {
-                    // if (!data.ok) {
-                    //     throw new Error(data.statusText)
-                    // }
-                    // return data.json();
-                },
-                error: function(data) {
-                    Swal.showValidationMessage(
-                        `Request failed: ${data}`
-                    )
-                }
-
-            })
-        },
-        allowOutsideClick: () => !Swal.isLoading()
-    }).then((result) => {
-        if (result.value) {
-            Swal.fire(
-                    'Deleted!',
-                    'Your data has been deleted.',
-                    'success'
-                )
-                // reload table after success
-            setTimeout(function() {
-                $('#list-user').DataTable().ajax.reload(null, false);
-            }, 800);
-        }
-    })
-});
-//------------------------------ end function delete user ------------------------------
 
 function successAlert(message) {
     event.preventDefault();
     Swal.fire({
         icon: 'success',
         title: 'Success',
-        text: message,
+        text:`${message} created sucessfully`,
     }), setTimeout(function() {
-        $('#edit-user').modal('toggle');
+        $('#modal').modal('toggle');
 
-        $('#list-user').DataTable().ajax.reload(null, false);
+        $('#table-roles').DataTable().ajax.reload(null, false);
     }, 800);
+};
+
+function errorAlert(message) {
+    event.preventDefault();
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: message,
+    });
 };

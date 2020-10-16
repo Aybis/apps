@@ -30,40 +30,44 @@ Roles & Permissions
                     </div>
                 </div>
                 <hr>
-                <div class="tab-content ">
-                    <h4 class="header-title" style="text-align: center">{{ Auth::user()->roles()->first()->name }}</h4>
+                <div class="tab-content mt-4">
+                    <h4 class="header-title" style="text-align: center">{{ $roles->display}}</h4>
 
-                    <div class="row">
-                        
-                        @foreach ($grouped as $item => $key)
+                    <form action="">
+                        <div class="row">
+                            @foreach ($grouped as $item => $key)
+
                             <div class="col-lg-3 mt-4">
+                                
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" id="{{ $item }}">
                                     <label class="custom-control-label" for="{{ $item }}"> {{ $item }}</label>
                                 </div>
+
                                 <div class="mt-2 ml-3">
 
                                     @for($x = 0; $x<count($grouped->get($item)); $x++)
                                         <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="{{ $key[$x] }}">
-                                            <label class="custom-control-label" for="{{ $key[$x] }}">{{ $key[$x] }}</label>
+                                            <input type="checkbox" class="custom-control-input" id="{{ $key[$x]['name'] }}">
+                                            <label class="custom-control-label"
+                                                for="{{ $key[$x]['display'] }}">{{ $key[$x]['display'] }}</label>
                                         </div>
                                     @endfor
                                 </div>
                             </div>
-                           
-                        @endforeach
-                    
-                     
-                    </div>
+
+                            @endforeach
+                        </div>
+                        <div class="row mt-4">
+                                <button class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-@include('modules.management.user.modal.create')
-@include('modules.management.user.modal.edit')
 @endsection
 
 @section('scripts')
@@ -71,7 +75,7 @@ Roles & Permissions
 <script src="{{ asset('assets/js/vendor/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/vendor/dataTables.bootstrap4.js') }}"></script>
 <script src="{{ asset('assets/sweetalert/js/sweetalert2.all.min.js')}}"></script>
-<script src="{{ asset('js/web/main/user/list.js')}}"></script>
+<script src="{{ asset('js/web/main/management/roles/add-permission.js') }}"></script>
 
 <!-- third party js ends -->
 
