@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Spph;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -33,14 +34,23 @@ class User extends Authenticatable implements Auditable
         'email_verified_at' => 'datetime',
     ];
 
+    // Function Roles 
+    public function spph()
+    {
+        return $this->hasMany(Spph::class, 'created_by');
+    }
+   
+    public function roles()
+    {
+        return $this->hasMany(Roles::class,'id','role_id');
+    }
+
+    // Function get Data and CRUD 
+
     public function getDataAll()
     {
         $query = User::all();
     }
 
-  public function roles()
-  {
-      return $this->hasMany(Roles::class,'id','role_id');
-  }
 
 }

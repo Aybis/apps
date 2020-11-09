@@ -7,6 +7,12 @@ use Illuminate\Http\Request;
 
 class MitraController extends Controller
 {
+    public $model;
+
+    public function __construct()
+    {
+        $this->model = new Mitra();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,9 @@ class MitraController extends Controller
      */
     public function index()
     {
-        //
+        $data = $this->model->getAllData()->get();
+
+        return $data;
     }
 
     /**

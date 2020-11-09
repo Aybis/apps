@@ -13,9 +13,7 @@ function getAllData() {
         scrollY: "500px",
         pagingType: "full_numbers",
         destroy: true,
-        responsive: true,
         processing: true,
-        // serverSide: true,
         async: true,
         language: {
             paginate: {
