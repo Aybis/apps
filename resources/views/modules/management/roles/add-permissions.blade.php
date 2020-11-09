@@ -33,41 +33,43 @@ Roles & Permissions
                 <div class="tab-content mt-4">
                     <h4 class="header-title" style="text-align: center">{{ $roles->display}}</h4>
 
-                    <form action="">
-                        <div class="row">
-                            @foreach ($grouped as $item => $key)
-
+                    <div class="row">
+                        
+                        @foreach ($grouped as $item => $key)
                             <div class="col-lg-3 mt-4">
-                                
                                 <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="{{ $item }}">
-                                    <label class="custom-control-label" for="{{ $item }}"> {{ $item }}</label>
+                                    <input type="checkbox" value="{{ $item }}" id="{{ strtolower($item) }}">
+                                    <label for="{{ strtolower($item) }}"> {{ $item }}</label>
                                 </div>
-
-                                <div class="mt-2 ml-3">
+                                <div class="mt-1 ml-3">
 
                                     @for($x = 0; $x<count($grouped->get($item)); $x++)
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="{{ $key[$x]['name'] }}">
-                                            <label class="custom-control-label"
-                                                for="{{ $key[$x]['display'] }}">{{ $key[$x]['display'] }}</label>
+                                        <div class="custom-control">
+                                            <input type="checkbox" class="sub-{{ strtolower($item) }}" id="{{ $key[$x]['name'] }}">
+                                            <label for="{{ $key[$x]['name'] }}">{{ $key[$x]['display'] }}</label>
                                         </div>
                                     @endfor
                                 </div>
                             </div>
+                           
+                        @endforeach
+                    
+                     
+                    </div>
 
-                            @endforeach
-                        </div>
-                        <div class="row mt-4">
-                                <button class="btn btn-primary">Submit</button>
-                        </div>
-                    </form>
+                    <div class="row">
+                        @foreach ($grouped as $item => $key)
+                            <input type="hidden" value="{{ strtolower($item) }}" class="menu">
+                        @endforeach
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+@include('modules.management.user.modal.create')
+@include('modules.management.user.modal.edit')
 @endsection
 
 @section('scripts')
@@ -75,7 +77,20 @@ Roles & Permissions
 <script src="{{ asset('assets/js/vendor/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('assets/js/vendor/dataTables.bootstrap4.js') }}"></script>
 <script src="{{ asset('assets/sweetalert/js/sweetalert2.all.min.js')}}"></script>
-<script src="{{ asset('js/web/main/management/roles/add-permission.js') }}"></script>
+<script>
+    $(document).ready(function(){
+    let menu = $('.menu').map((_, el) => el.value).get();
+    
+    menu.forEach(function(i){
+        console.log(i);
+        $(`#${i}`).click(function () {
+            $(`.sub-${i}`).not(this).prop('checked', this.checked);
+        });
+    })
+    
+});
+
+</script>
 
 <!-- third party js ends -->
 
