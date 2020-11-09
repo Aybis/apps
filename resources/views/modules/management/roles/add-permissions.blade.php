@@ -32,7 +32,6 @@ Roles & Permissions
                 <hr>
                 <div class="tab-content mt-4">
                     <h4 class="header-title" style="text-align: center">{{ $roles->display}}</h4>
-
                     <form action="">
                         <div class="row">
                             @foreach ($grouped as $item => $key)

@@ -2,117 +2,87 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\UploadDocument;
+use App\Http\Requests\SpphRequest;
 use App\Spph;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SpphController extends Controller
 {
-    /**
-     * Display a listing of the resource only adminnistrator.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function all()
+    public $model;
+    public $uploadDocument;
+ 
+    public function __construct()
     {
-        return view('modules.spph.all');
+        $this->middleware('auth', ['only' => 'create', 'edit']);
+        $this->model = new Spph();
+    }
+    public function all(Request $request)
+    {
+        $data = $this->model->getAllData($request->month, $request->year)->get();
+        return $data;
     }
 
-
-     /**
-     * Display a listing of the resource where status draft.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function draft()
+    public function draft(Request $request)
     {
-        return view('modules.spph.draft');
+        $data = $this->model->getDraftData($request->month, $request->year)->get();
+        return $data;
     }
 
-    
-     /**
-     * Display a listing of the resource where status save.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function list()
+    public function list(Request $request)
     {
-        return view('modules.spph.list');
+        $data = $this->model->getListData($request->month, $request->year)->get();
+        return $data;
     }
 
-     /**
-     * Display a listing of the resource where status done.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function done()
+    public function done(Request $request)
     {
-        return view('modules.spph.done');
+        $data = $this->model->getDoneData($request->month, $request->year)->get();
+        return $data;
     }
 
-
-
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('modules.spph.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(SpphRequest $spphRequest)
     {
-        //
+        $data = $spphRequest->all();
+        $data['document'] = $spphRequest->file('document') != null ? $spphRequest->file('document') : NULL;
+
+        DB::beginTransaction();
+        
+        try{
+            // call function insert 
+            $insert = $this->model->insertData($data);
+            
+            // call helper function upload document
+            $upload = UploadDocument::insertDocument($insert, $data);
+
+            DB::commit();
+            if($insert->status == 'save'){
+                return redirect()->route('spph.list')->with('success',"SPPH dengan Nomor $insert->nomor_spph berhasil dibuat");
+            }else{
+                return redirect()->route('spph.draft')->with('success',"SPPH dengan Nomor $insert->nomor_spph berhasil dibuat");
+            }
+        }catch(\Exception $e){
+            DB::rollBack();
+            return redirect()->back()->withInput()->withErrors($e->getMessage());
+        }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Spph  $spph
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Spph $spph)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Spph  $spph
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Spph $spph)
     {
         return view('modules.spph.edit', compact($spph));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Spph  $spph
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Spph $spph)
+    public function update(SpphRequest $spphRequest, Spph $spph)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Spph  $spph
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Spph $spph)
     {
         //

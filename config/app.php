@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+       
 
         /*
          * Package Service Providers...
@@ -178,7 +179,8 @@ return [
         OwenIt\Auditing\AuditingServiceProvider::class,
         // DataTable Yajra
         Yajra\DataTables\DataTablesServiceProvider::class,
-
+        //Provider for upload dokumen 
+        App\Providers\UploadDokumenServiceProvider::class,
 
     ],
 
@@ -231,6 +233,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+        'UploadDokumen' => App\Helpers\UploadDocument::class,
 
     ],
 

@@ -34,6 +34,10 @@ Route::group(['prefix' => 'spph'], function () {
 
 //-------- Route MASTER DATA ----------------------
 
+
+/* 
+Route Users 
+*/
 Route::resource('users', 'UserController', [
     'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
 ]);
@@ -43,7 +47,9 @@ Route::group(['prefix' => 'users'], function () {
 });
 
 
-
+/* 
+Route Roles 
+*/
 Route::group(['prefix' => 'roles'], function () {
     Route::get('/data', 'RolesController@getAllData')->name('roles.data');
     Route::get('/add/{roles}', 'RolesController@addPermissions')->name('roles.add');
@@ -54,7 +60,9 @@ Route::resource('roles', 'RolesController', [
 ]);
 
 
-
+/* 
+Route Permission 
+*/
 Route::group(['prefix' => 'permissions'], function () {
     Route::get('/data', 'PermissionsController@getAllData')->name('permissions.data');
 });
@@ -62,4 +70,18 @@ Route::group(['prefix' => 'permissions'], function () {
 Route::resource('permissions', 'PermissionsController', [
     'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
 ]);
+
+
+/* 
+Route Mitra 
+*/
+// Route::group(['prefix' => 'mitras'], function () {
+//     // Route::get('/data', 'MitraController@getAllData')->name('permissions.data');
+// });
+
+Route::resource('mitras', 'MitraController', [
+    'only' => ['index', 'create', 'edit', 'store', 'update', 'destroy'] ,
+]);
+
+
 //-------- End Route MASTER DATA --------

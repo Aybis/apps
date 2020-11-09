@@ -61,6 +61,7 @@ class UserAndRolesSeeder extends Seeder
                 "name" => "Ahmad Fauzi Hanif",
                 "email" => "fauzi.hanif@pins.co.id",
                 "role_id" => 1,
+                "position" => 'IT Officer 1',
                 "password" => bcrypt('gloryHorsePower')
             ],
             [
@@ -68,6 +69,7 @@ class UserAndRolesSeeder extends Seeder
                 "name" => "Abdul Muchtar Astria",
                 "email" => "abdul.muchtar@pins.co.id",
                 "role_id" => 1,
+                "position" => 'IT Officer 3',
                 "password" => bcrypt('gloryHorsePower')
             ],
             [
@@ -75,6 +77,7 @@ class UserAndRolesSeeder extends Seeder
                 "name" => "Bayu Respati",
                 "email" => "bayu.respati@pins.co.id",
                 "role_id" => 1,
+                "position" => 'IT Officer 2',
                 "password" => bcrypt('gloryHorsePower')
             ],
         ]);
